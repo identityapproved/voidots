@@ -8,9 +8,9 @@ static const int sloppyfocus               = 1;  /* focus follows mouse */
 static const int bypass_surface_visibility = 0;  /* 1 means idle inhibitors will disable idle tracking even if it's surface isn't visible  */
 static const unsigned int borderpx         = 1;  /* border pixel of windows */
 static const int centeredmaster_always = 1;  /* 1 means only one window is centered */
-static const float rootcolor[]             = COLOR(0x222222ff);
-static const float bordercolor[] = COLOR(0x26332aff);
-static const float focuscolor[]  = COLOR(0x478061ff);
+static const float rootcolor[]             = COLOR(0x1f1f28ff);
+static const float bordercolor[] = COLOR(0x54546dff);
+static const float focuscolor[]  = COLOR(0x7e9cd8ff);
 static const float urgentcolor[] = COLOR(0xc34043ff);
 
 static const int smartgaps                 = 1;
@@ -23,7 +23,7 @@ static const unsigned int gappov           = 10;
 /* This conforms to the xdg-protocol. Set the alpha to zero to restore the old behavior */
 // static const float fullscreen_bg[]         = {0.0f, 0.0f, 0.0f, 1.0f}; /* You can also use glsl colors */
 // static const float fullscreen_bg[] = {0.043, 0.059, 0.047, 1.0};
-static const float fullscreen_bg[] = {0.043137f, 0.058824f, 0.047059f, 1.0f};
+static const float fullscreen_bg[] = {0.122f, 0.122f, 0.157f, 1.0f};
 
 /* tagging - TAGCOUNT must be no greater than 31 */
 #define TAGCOUNT (9)
@@ -137,12 +137,12 @@ static const char *menucmd[] = {
     "wmenu-run",
     "-i",
     "-f", "IosevkaTermSlab Nerd Font Mono 10",
-    "-N", "0b0f0cff",
-    "-n", "d8e6d3ff",
-    "-M", "111810ff",
-    "-m", "6aa875ff",
-    "-S", "478061ff",
-    "-s", "0b0f0cff",
+    "-N", "1f1f28ff",
+    "-n", "dcd7baff",
+    "-M", "2d4f67ff",
+    "-m", "7e9cd8ff",
+    "-S", "76946aff",
+    "-s", "1f1f28ff",
     NULL
 };
 

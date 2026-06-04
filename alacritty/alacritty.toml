@@ -1,5 +1,6 @@
 [env]
 TERM = "alacritty"
+COLORTERM = "truecolor"
 
 [window]
 opacity = 0.92
@@ -22,28 +23,36 @@ blink_interval = 0
 animation = "Linear"
 
 [colors.primary]
-background = "#0b0f0c"
-foreground = "#d8e6d3"
+background = "#1f1f28"
+foreground = "#dcd7ba"
+
+[colors.cursor]
+text   = "#1f1f28"
+cursor = "#dcd7ba"
+
+[colors.selection]
+text       = "#c8c093"
+background = "#2d4f67"
 
 [colors.normal]
-black = "#0b0f0c"
-red = "#c34043"
-green = "#478061"
-yellow = "#c0a36e"
-blue = "#7e9cd8"
+black   = "#16161d"
+red     = "#c34043"
+green   = "#76946a"
+yellow  = "#c0a36e"
+blue    = "#7e9cd8"
 magenta = "#957fb8"
-cyan = "#6a9589"
-white = "#d8e6d3"
+cyan    = "#6a9589"
+white   = "#c8c093"
 
 [colors.bright]
-black = "#2d3a31"
-red = "#e06c75"
-green = "#6aa875"
-yellow = "#e6c384"
-blue = "#9ecbff"
-magenta = "#b9aeda"
-cyan = "#8fbfb5"
-white = "#f0f7ed"
+black   = "#727169"
+red     = "#e82424"
+green   = "#98bb6c"
+yellow  = "#e6c384"
+blue    = "#7fb4ca"
+magenta = "#938aa9"
+cyan    = "#7aa89f"
+white   = "#dcd7ba"
 
 [keyboard]
 bindings = [

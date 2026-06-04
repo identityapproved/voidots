@@ -8,7 +8,9 @@ Void Linux configs for voidbox. Symlinked into place from `~/builds` and `~/.con
 |---|---|
 | `alacritty/alacritty.toml` | `~/.config/alacritty/alacritty.toml` |
 | `tmux/tmux.conf` | `~/.config/tmux/tmux.conf` |
+| `dircolors` | `~/.dircolors` |
 | `dwl/config.h` | `~/builds/dwl/config.h` |
+| `dwlb/config.h` | `~/builds/dwlb/config.h` |
 
 ## dwl patches applied
 
