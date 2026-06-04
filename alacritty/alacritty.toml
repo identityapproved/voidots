@@ -1,0 +1,53 @@
+[env]
+TERM = "alacritty"
+
+[window]
+opacity = 0.92
+padding = { x = 8, y = 8 }
+decorations = "full"
+
+[font]
+normal = { family = "IosevkaTermSlab Nerd Font Mono", style = "Regular" }
+bold = { family = "IosevkaTermSlab Nerd Font Mono", style = "Bold" }
+italic = { family = "IosevkaTermSlab Nerd Font Mono", style = "Italic" }
+bold_italic = { family = "IosevkaTermSlab Nerd Font Mono", style = "Bold Italic" }
+size = 11.0
+
+[cursor]
+style = "Block"
+vi_mode_style = "Block"
+blink_interval = 0
+
+[bell]
+animation = "Linear"
+
+[colors.primary]
+background = "#0b0f0c"
+foreground = "#d8e6d3"
+
+[colors.normal]
+black = "#0b0f0c"
+red = "#c34043"
+green = "#478061"
+yellow = "#c0a36e"
+blue = "#7e9cd8"
+magenta = "#957fb8"
+cyan = "#6a9589"
+white = "#d8e6d3"
+
+[colors.bright]
+black = "#2d3a31"
+red = "#e06c75"
+green = "#6aa875"
+yellow = "#e6c384"
+blue = "#9ecbff"
+magenta = "#b9aeda"
+cyan = "#8fbfb5"
+white = "#f0f7ed"
+
+[keyboard]
+bindings = [
+  { key = "V", mods = "Control|Shift", action = "Paste" },
+  { key = "C", mods = "Control|Shift", action = "Copy" },
+  { key = "Return", mods = "Shift", chars = "\u001B\r" },
+]
