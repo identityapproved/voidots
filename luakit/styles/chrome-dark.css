@@ -1,0 +1,68 @@
+/*
+ * Kanagawa dark theme for luakit:// chrome pages
+ * (binds, help, history, downloads, adblock, settings, newtab, ...).
+ * These pages ship hardcoded light CSS that prefer_dark_mode cannot touch.
+ * Scope = domain("luakit"): non-http URIs resolve to their scheme, so this
+ * matches every luakit:// page and nothing else. Real colors, no invert.
+ */
+@-moz-document domain("luakit") {
+    html, body {
+        background-color: #1F1F28 !important;
+        color: #DCD7BA !important;
+    }
+
+    /* shared chrome.lua header / chrome */
+    #page-header,
+    #page-header > h1 {
+        background-color: #16161D !important;
+        color: #DCD7BA !important;
+        border-color: #2A2A37 !important;
+    }
+    h1, h2, h3, h4 { color: #C8C093 !important; }
+
+    /* boxes, cards, code, tables */
+    .content-margin, .content,
+    section, article, table, tr, td, th,
+    pre, code, .button, fieldset {
+        background-color: #1F1F28 !important;
+        color: #DCD7BA !important;
+        border-color: #2A2A37 !important;
+    }
+    th, thead, .header, .title {
+        background-color: #2A2A37 !important;
+        color: #DCD7BA !important;
+    }
+    tr:nth-child(even), tr:hover {
+        background-color: #181820 !important;
+    }
+    pre, code, kbd {
+        background-color: #16161D !important;
+        color: #98BB6C !important;
+    }
+
+    /* inputs / search box */
+    input, textarea, select,
+    #page-header input, #page-header #search-box, #page-header #search {
+        background-color: #16161D !important;
+        color: #DCD7BA !important;
+        border: 1px solid #2A2A37 !important;
+        box-shadow: none !important;
+    }
+    ::placeholder { color: #727169 !important; }
+
+    /* links and accents */
+    a, a:link { color: #7E9CD8 !important; }
+    a:visited { color: #957FB8 !important; }
+    a:hover   { color: #7FB4CA !important; }
+
+    /* buttons */
+    .button {
+        background-color: #2A2A37 !important;
+        color: #DCD7BA !important;
+        box-shadow: none !important;
+    }
+    .button:hover { background-color: #2D4F67 !important; }
+
+    /* dim muted/secondary text instead of near-black */
+    .secondary, .muted, small, .disabled { color: #727169 !important; }
+}

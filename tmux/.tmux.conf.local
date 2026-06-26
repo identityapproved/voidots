@@ -1,0 +1,107 @@
+# =============================================================================
+# oh-my-tmux local overrides — voidbox
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# void/forest palette overrides (mirrors alacritty.toml)
+# -----------------------------------------------------------------------------
+tmux_conf_theme_colour_1="#0b0f0c"    # dark bg
+tmux_conf_theme_colour_2="#2d3a31"    # surface
+tmux_conf_theme_colour_3="#478061"    # green
+tmux_conf_theme_colour_4="#6aa875"    # bright green
+tmux_conf_theme_colour_5="#c0a36e"    # yellow
+tmux_conf_theme_colour_6="#d8e6d3"    # fg
+tmux_conf_theme_colour_7="#6a9589"    # cyan
+tmux_conf_theme_colour_8="#957fb8"    # magenta
+
+tmux_conf_theme_pane_border="colour2"
+tmux_conf_theme_pane_active_border="colour3"
+
+tmux_conf_theme_status_left=" #S "
+tmux_conf_theme_status_left_fg="colour1,colour1,colour1"
+tmux_conf_theme_status_left_bg="colour4,colour3,colour2"
+tmux_conf_theme_status_left_attr="bold,none,none"
+
+tmux_conf_theme_status_right=" #{prefix}#{mouse}#{pairing}#{synchronized}#{?battery_status,#{battery_status} ,}#{?battery_bar,#{battery_bar} ,}#{?battery_percentage,#{battery_percentage} ,}, %R , %d %b | #{username}#{root} | #{hostname} "
+tmux_conf_theme_status_right_fg="colour7,colour5,colour6"
+tmux_conf_theme_status_right_bg="colour1,colour1,colour2"
+tmux_conf_theme_status_right_attr="none,none,none"
+
+tmux_conf_theme_window_status_format=" #I:#W "
+tmux_conf_theme_window_status_current_format=" #I:#W "
+tmux_conf_theme_window_status_fg="colour7"
+tmux_conf_theme_window_status_bg="colour1"
+tmux_conf_theme_window_status_current_fg="colour1"
+tmux_conf_theme_window_status_current_bg="colour3"
+tmux_conf_theme_window_status_current_attr="bold"
+
+tmux_conf_theme_left_separator_main=''
+tmux_conf_theme_left_separator_sub=''
+tmux_conf_theme_right_separator_main=''
+tmux_conf_theme_right_separator_sub=''
+
+tmux_conf_theme_clock_colour="colour3"
+tmux_conf_theme_clock_style=24
+tmux_conf_copy_to_os_clipboard=true
+
+# -----------------------------------------------------------------------------
+# Settings
+# -----------------------------------------------------------------------------
+set -g base-index 1
+set -g pane-base-index 1
+set -g renumber-windows on
+set -g automatic-rename on
+set -g automatic-rename-format "#{b:pane_current_path}"
+set -g history-limit 50000
+set -g status-left-length 80
+set -g status-right-length 120
+
+# cursor shape passthrough (nvim block/beam)
+set -as terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q'
+
+# vi copy mode
+set -g mode-keys vi
+bind Enter copy-mode
+bind -T copy-mode-vi v send -X begin-selection
+bind -T copy-mode-vi y send -X copy-selection-and-cancel
+bind -T copy-mode-vi Escape send -X cancel
+
+# splits
+bind | split-window -h -c "#{pane_current_path}"
+bind - split-window -v -c "#{pane_current_path}"
+unbind '"'
+unbind %
+bind c new-window -c "#{pane_current_path}"
+bind r source-file ~/.tmux.conf \; display "reloaded"
+
+# vim-style pane nav
+bind h select-pane -L
+bind j select-pane -D
+bind k select-pane -U
+bind l select-pane -R
+
+bind -r H resize-pane -L 5
+bind -r J resize-pane -D 5
+bind -r K resize-pane -U 5
+bind -r L resize-pane -R 5
+
+# agent session layout
+bind A new-session \; \
+  rename-window "code" \; \
+  new-window -n "agent" \; \
+  new-window -n "git" \; \
+  new-window -n "shell" \; \
+  select-window -t 1
+
+# -----------------------------------------------------------------------------
+# Plugins (TPM)
+# -----------------------------------------------------------------------------
+set -g @plugin 'tmux-plugins/tpm'
+set -g @plugin 'tmux-plugins/tmux-yank'
+set -g @yank_selection 'clipboard'
+set -g @yank_selection_mouse 'clipboard'
+set -g @plugin 'tmux-plugins/vim-tmux-focus-events'
+
+if "test ! -d ~/.tmux/plugins/tpm" \
+  "run 'git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm && ~/.tmux/plugins/tpm/bin/install_plugins'"
+run '~/.tmux/plugins/tpm/tpm'

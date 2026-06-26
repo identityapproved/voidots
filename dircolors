@@ -3,7 +3,8 @@
 COLOR tty
 OPTIONS -F -T 0
 
-TERM alacritty
+TERM foot
+TERM foot-direct
 TERM tmux
 TERM tmux-256color
 TERM screen
@@ -18,8 +19,8 @@ NORMAL 00
 FILE   00
 RESET  0
 
-# Directories — #76946a autumnGreen
-DIR    01;38;2;118;148;106
+# Directories — #7e9cd8 crystalBlue
+DIR    01;38;2;126;156;216
 
 # Symlinks — #6a9589 waveAqua1
 LINK   01;38;2;106;149;137

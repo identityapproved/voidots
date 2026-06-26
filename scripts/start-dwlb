@@ -1,0 +1,16 @@
+#!/bin/sh
+
+dwlb \
+  -font "IosevkaTermSlab Nerd Font Mono:size=11" \
+  -active-fg-color 1f1f28 \
+  -active-bg-color 7e9cd8 \
+  -inactive-fg-color c8c093 \
+  -inactive-bg-color 1f1f28 \
+  -occupied-fg-color dcd7ba \
+  -occupied-bg-color 2a2a37 \
+  -urgent-fg-color 1f1f28 \
+  -urgent-bg-color c34043 &
+
+sleep 1
+
+exec "$HOME/.local/bin/dwlb-status-command"

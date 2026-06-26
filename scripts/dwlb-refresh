@@ -1,0 +1,15 @@
+#!/bin/sh
+
+mkdir -p "$HOME/.cache"
+
+tlp-stat -s 2>/dev/null \
+  | awk -F= '/TLP profile/ {
+      gsub(/^[ \t]+|[ \t]+$/, "", $2);
+      print $2;
+      found=1
+  }
+  END {
+      if (!found) print "tlp ?"
+  }' > "$HOME/.cache/current-tlp-profile"
+
+dwlb -status all "$("$HOME/.local/bin/dwlb-status-once")"

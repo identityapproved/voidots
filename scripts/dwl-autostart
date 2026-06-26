@@ -1,0 +1,38 @@
+#!/bin/sh
+
+LOG="$HOME/.local/state/dwl-autostart.log"
+mkdir -p "$HOME/.local/state"
+
+echo "=== dwl-autostart: $(date) ===" >>"$LOG"
+
+# Kill existing processes
+pkill -f "$HOME/.local/bin/dwlb-status-loop" 2>/dev/null
+pkill -x dwlb 2>/dev/null
+
+# Start services
+"$HOME/.local/bin/random-wallpaper" >>"$LOG" 2>&1 &
+
+if ! pgrep -x pipewire >/dev/null 2>&1; then
+  pipewire >>"$LOG" 2>&1 &
+fi
+
+dunst >>"$LOG" 2>&1 &
+
+# Start bar
+dwlb \
+  -ipc \
+  -no-center-title \
+  -no-active-color-title \
+  -font "IosevkaTermSlab Nerd Font Mono:size=11" \
+  -active-fg-color 7fb4ca \
+  -active-bg-color 2d4f67 \
+  -inactive-fg-color 727169 \
+  -inactive-bg-color 1f1f28 \
+  -occupied-fg-color c8c093 \
+  -occupied-bg-color 2a2a37 \
+  -urgent-fg-color 1f1f28 \
+  -urgent-bg-color c34043 >>"$LOG" 2>&1 &
+
+sleep 1
+
+exec "$HOME/.local/bin/dwlb-status-loop" >>"$LOG" 2>&1

@@ -1,0 +1,121 @@
+#!/bin/sh
+
+FG="dcd7ba"
+MUTED="727169"
+GREEN="76946a"
+GREEN2="98bb6c"
+YELLOW="c0a36e"
+RED="c34043"
+
+color() {
+    printf '^fg(%s)%s^fg()' "$1" "$2"
+}
+
+get_net() {
+    iface="$(ip route get 1.1.1.1 2>/dev/null | awk '{for (i=1;i<=NF;i++) if ($i=="dev") {print $(i+1); exit}}')"
+    [ -n "$iface" ] || {
+        printf "net down"
+        return
+    }
+
+    ipaddr="$(ip -4 addr show "$iface" 2>/dev/null | awk '/inet / {sub("/.*","",$2); print $2; exit}')"
+
+    if [ -n "$ipaddr" ]; then
+        printf "%s %s" "$iface" "$ipaddr"
+    else
+        printf "%s no-ip" "$iface"
+    fi
+}
+
+get_vol() {
+    out="$(wpctl get-volume @DEFAULT_AUDIO_SINK@ 2>/dev/null)" || {
+        printf "vol ?"
+        return
+    }
+
+    vol="$(printf '%s\n' "$out" | awk '{printf "%d%%", $2 * 100}')"
+
+    case "$out" in
+        *MUTED*) printf "muted" ;;
+        *) printf "vol %s" "$vol" ;;
+    esac
+}
+
+get_brightness() {
+    cur="$(brightnessctl get 2>/dev/null)" || {
+        printf "bri ?"
+        return
+    }
+
+    max="$(brightnessctl max 2>/dev/null)" || {
+        printf "bri ?"
+        return
+    }
+
+    [ "$max" -gt 0 ] 2>/dev/null || {
+        printf "bri ?"
+        return
+    }
+
+    printf "bri %d%%" "$((cur * 100 / max))"
+}
+
+get_battery() {
+    bat_path="$(find /sys/class/power_supply -maxdepth 1 -type l -name 'BAT*' | head -n 1)"
+
+    [ -n "$bat_path" ] || {
+        printf "bat ?"
+        return
+    }
+
+    cap="$(cat "$bat_path/capacity" 2>/dev/null)"
+    status="$(cat "$bat_path/status" 2>/dev/null)"
+
+    case "$status" in
+        Charging) icon="+" ;;
+        Discharging) icon="-" ;;
+        Full) icon="=" ;;
+        *) icon="?" ;;
+    esac
+
+    printf "bat %s%s%%" "$icon" "$cap"
+}
+
+get_power_profile() {
+    if command -v powerprofilesctl >/dev/null 2>&1; then
+        profile="$(powerprofilesctl get 2>/dev/null)" || profile=""
+        [ -n "$profile" ] && {
+            printf "pwr %s" "$profile"
+            return
+        }
+    fi
+
+    if command -v tlp-stat >/dev/null 2>&1; then
+        mode="$(tlp-stat -s 2>/dev/null | awk -F= '/Mode/ {gsub(/[[:space:]]/, "", $2); print tolower($2); exit}')"
+        [ -n "$mode" ] && {
+            printf "pwr %s" "$mode"
+            return
+        }
+    fi
+
+    printf "pwr ?"
+}
+
+while :; do
+    net="$(get_net)"
+    vol="$(get_vol)"
+    bri="$(get_brightness)"
+    bat="$(get_battery)"
+    pwr="$(get_power_profile)"
+    time="$(date '+%a %d %b %H:%M')"
+
+    printf '%s  %s  %s  %s  %s  %s\n' \
+        "$(color "$GREEN2" "$net")" \
+        "$(color "$GREEN" "$vol")" \
+        "$(color "$YELLOW" "$bri")" \
+        "$(color "$GREEN2" "$bat")" \
+        "$(color "$MUTED" "$pwr")" \
+        "$(color "$FG" "$time")"
+
+    sleep 5
+done

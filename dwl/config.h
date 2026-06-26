@@ -130,8 +130,8 @@ static const enum libinput_config_tap_button_map button_map = LIBINPUT_CONFIG_TA
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
-static const char *termcmd[]      = { "alacritty", NULL };
-static const char *termtmuxcmd[]  = { "alacritty", "-e", "tmux", NULL };
+static const char *termcmd[]      = { "foot", NULL };
+static const char *termtmuxcmd[]  = { "foot", "tmux", NULL };
 static const char *footcmd[] = { "foot", "yazi", NULL };
 static const char *menucmd[] = {
     "wmenu-run",
@@ -160,6 +160,9 @@ static const Key keys[] = {
 	{ MODKEY,                    XKB_KEY_Return,      spawn,            {.v = termcmd} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_Return,      spawn,            {.v = termtmuxcmd} },
   { MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_e,           spawn,            {.v = footcmd} },
+	/* screenshots: Print = region to clipboard; Shift+Print = region into swappy (draw/save) */
+	{ 0,                         XKB_KEY_Print,       spawn,            SHCMD("grim -g \"$(slurp)\" - | wl-copy") },
+	{ WLR_MODIFIER_SHIFT,        XKB_KEY_Print,       spawn,            SHCMD("grim -g \"$(slurp)\" - | swappy -f -") },
 	{ MODKEY,                    XKB_KEY_b,           togglebar,        {0} },
 
 	/* directional focus/swap with hjkl */

@@ -1,0 +1,6 @@
+#!/bin/sh
+
+while :; do
+    "$HOME/.local/bin/dwlb-refresh"
+    sleep 60
+done

@@ -6,11 +6,17 @@ Void Linux configs for voidbox. Symlinked into place from `~/builds` and `~/.con
 
 | file in repo | symlinked from |
 |---|---|
-| `alacritty/alacritty.toml` | `~/.config/alacritty/alacritty.toml` |
+| `foot/foot.ini` | `~/.config/foot/foot.ini` |
+| `offpunk/offpunkrc` | `~/.config/offpunk/offpunkrc` |
 | `tmux/tmux.conf` | `~/.config/tmux/tmux.conf` |
+| `zsh/zshrc` | `~/.zshrc` |
 | `dircolors` | `~/.dircolors` |
 | `dwl/config.h` | `~/builds/dwl/config.h` |
 | `dwlb/config.h` | `~/builds/dwlb/config.h` |
+| `luakit/theme.lua` | `~/.config/luakit/theme.lua` |
+| `luakit/userconf.lua` | `~/.config/luakit/userconf.lua` |
+| `luakit/search_highlight.lua` | `~/.config/luakit/search_highlight.lua` |
+| `luakit/styles/chrome-dark.css` | `~/.local/share/luakit/styles/chrome-dark.css` |
 
 ## dwl patches applied
 
@@ -24,5 +30,5 @@ Void Linux configs for voidbox. Symlinked into place from `~/builds` and `~/.con
 
 | binding | action |
 |---|---|
-| `MOD+Return` | spawn alacritty |
-| `MOD+Shift+Return` | spawn alacritty + tmux |
+| `MOD+Return` | spawn foot |
+| `MOD+Shift+Return` | spawn foot + tmux |

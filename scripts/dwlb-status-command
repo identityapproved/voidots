@@ -1,0 +1,89 @@
+#!/bin/sh
+
+get_net() {
+    iface="$(ip route get 1.1.1.1 2>/dev/null | awk '{for (i=1;i<=NF;i++) if ($i=="dev") {print $(i+1); exit}}')"
+    [ -n "$iface" ] || {
+        printf "net down"
+        return
+    }
+
+    ipaddr="$(ip -4 addr show "$iface" 2>/dev/null | awk '/inet / {sub("/.*","",$2); print $2; exit}')"
+    [ -n "$ipaddr" ] && printf "%s %s" "$iface" "$ipaddr" || printf "%s no-ip" "$iface"
+}
+
+get_vol() {
+    out="$(wpctl get-volume @DEFAULT_AUDIO_SINK@ 2>/dev/null)" || {
+        printf "vol ?"
+        return
+    }
+
+    case "$out" in
+        *MUTED*) printf "muted" ;;
+        *) printf "vol %s" "$(printf '%s\n' "$out" | awk '{printf "%d%%", $2 * 100}')" ;;
+    esac
+}
+
+get_brightness() {
+    cur="$(brightnessctl get 2>/dev/null)" || {
+        printf "bri ?"
+        return
+    }
+
+    max="$(brightnessctl max 2>/dev/null)" || {
+        printf "bri ?"
+        return
+    }
+
+    [ "$max" -gt 0 ] 2>/dev/null || {
+        printf "bri ?"
+        return
+    }
+
+    printf "bri %d%%" "$((cur * 100 / max))"
+}
+
+get_battery() {
+    bat_path="$(find /sys/class/power_supply -maxdepth 1 -type l -name 'BAT*' | head -n 1)"
+    [ -n "$bat_path" ] || {
+        printf "bat ?"
+        return
+    }
+
+    cap="$(cat "$bat_path/capacity" 2>/dev/null)"
+    status="$(cat "$bat_path/status" 2>/dev/null)"
+
+    case "$status" in
+        Charging) icon="+" ;;
+        Discharging) icon="-" ;;
+        Full) icon="=" ;;
+        *) icon="?" ;;
+    esac
+
+    printf "bat %s%s%%" "$icon" "$cap"
+}
+
+get_power_profile() {
+    if command -v powerprofilesctl >/dev/null 2>&1; then
+        profile="$(powerprofilesctl get 2>/dev/null)" || profile=""
+        [ -n "$profile" ] && {
+            printf "pwr %s" "$profile"
+            return
+        }
+    fi
+
+    printf "pwr ?"
+}
+
+while :; do
+    status="$(printf '%s | %s | %s | %s | %s | %s' \
+        "$(get_net)" \
+        "$(get_vol)" \
+        "$(get_brightness)" \
+        "$(get_battery)" \
+        "$(get_power_profile)" \
+        "$(date '+%a %d %b %H:%M')")"
+
+    dwlb -status all "$status"
+
+    sleep 5
+done
